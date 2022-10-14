@@ -49,6 +49,7 @@
         fixedDepth: false, //fixed item's depth
         fixed: false,
         includeContent: false,
+        moveOut: true,
         scroll: false,
         scrollSensitivity: 1,
         scrollSpeed: 5,
@@ -642,6 +643,7 @@
             this.moving = false;
             this.dragEl = null;
             this.dragRootEl = null;
+            this.dragParentEl = null;
             this.dragDepth = 0;
             this.hasNewRoot = false;
             this.pointEl = null;
@@ -711,6 +713,7 @@
             mouse.startY = mouse.lastY = e.pageY;
 
             this.dragRootEl = this.el;
+            this.dragParentEl = dragItem.closest('.' + this.options.listClass);
             this.dragEl = $(document.createElement(this.options.listNodeName)).addClass(this.options.listClass + ' ' + this.options.dragClass);
             this.dragEl.css('width', dragItem.outerWidth());
 
@@ -992,7 +995,10 @@
 
             // find parent list of item under cursor
             var pointElRoot = this.pointEl.closest('.' + opt.rootClass),
-                isNewRoot = this.dragRootEl.data('nestable-id') !== pointElRoot.data('nestable-id');
+                pointElParent = this.pointEl.closest('.' + opt.listClass),
+                isNewRoot = this.dragRootEl.data('nestable-id') !== pointElRoot.data('nestable-id'),
+                isNewParent = this.dragParentEl.data('list-id') !== pointElParent.data('list-id');
+            
 
             /**
              * move vertical
@@ -1000,6 +1006,10 @@
             if (!mouse.dirAx || isNewRoot || isEmpty) {
                 // check if groups match if dragging over new root
                 if (isNewRoot && opt.group !== pointElRoot.data('nestable-group')) {
+                    return;
+                }
+
+                if (isNewParent && !opt.moveOut) {
                     return;
                 }
 

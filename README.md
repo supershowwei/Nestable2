@@ -314,6 +314,7 @@ You can change the follow options:
 * `maxDepth` number of levels an item can be nested (default `5`)
 * `group` group ID to allow dragging between lists (default `0`)
 * `callback` callback function when an element has been changed (default `null`)
+* `moveOut` allow dragging out parent list (default: `true`)
 * `scroll` enable or disable the scrolling behaviour (default: `false`)
 * `scrollSensitivity` mouse movement needed to trigger the scroll (default: `1`)
 * `scrollSpeed` speed of the scroll (default: `5`)
